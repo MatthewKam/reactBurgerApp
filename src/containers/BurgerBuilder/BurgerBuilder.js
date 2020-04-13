@@ -33,6 +33,7 @@ class BurgerBuilder extends Component{
   }
 
   componentDidMount () {
+    console.log(this.props);
     axios.get('https://burgerbuilder-e55ef.firebaseio.com/ingredients.json')
       .then(response => {
         this.setState({ingredients: response.data});
@@ -96,30 +97,17 @@ class BurgerBuilder extends Component{
   }
 
   purchaseContinueHandler = () => {
-    // alert('You continue!');
-    this.setState({loading:true});
-    const order = {
-      ingredients: this.state.ingredients,
-      price: this.state.totalPrice,
-      customer: {
-        name: 'Matt Kam',
-        address: {
-          street:'18400 Von Karman Ave',
-          zipCode: '92626',
-          country: 'USA'
-        },
-        email: 'test@test.com'
-      },
-      deliveryMethod: 'fastest'
-      //this is just for show. Normally, you'd adjust the price in the backend to avoid users from changing prices.
+    
+    const queryParams = [];
+    for (let i in this.state.ingredients){
+      queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
     }
-    axios.post('/orders.json', order)
-      .then(response => {
-        this.setState({loading:false, purchasing: false});
-      })
-      .catch(error => {
-        this.setState({loading:false, purchasing: false});
-      });
+    queryParams.push('price=' + this.state.totalPrice);
+    const queryString = queryParams.join('&');
+    this.props.history.push({
+      pathname: '/checkout',
+      search:'?' + queryString
+    });
   }
 
   render(){
