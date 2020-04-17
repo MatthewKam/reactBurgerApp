@@ -4,7 +4,7 @@ import Aux from '../../../hoc/Aux/Aux';
 import Button from '../../UI/Button/Button';
 
 class OrderSummary extends Component {
-  componentWillUpdate(){
+  UNSAFE_componentWillUpdate(){
     console.log('[OrderSummary] WillUpdate');
   }
   
