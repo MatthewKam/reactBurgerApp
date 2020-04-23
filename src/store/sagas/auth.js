@@ -5,9 +5,9 @@ import axios from 'axios';
 //Generator*
 export function* logoutSaga(action){
   //call is good for testing
-  yield call([localStorage], 'removeItem', 'token');
-  yield call([localStorage], 'removeItem', 'expirationDate');
-  yield call([localStorage], 'removeItem', 'userId');
+  yield call([localStorage, 'removeItem'], 'token');
+  yield call([localStorage, 'removeItem'], 'expirationDate');
+  yield call([localStorage, 'removeItem'], 'userId');
   yield put(actions.logoutSucceed());
 };
 
